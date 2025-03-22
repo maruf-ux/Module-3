@@ -21,13 +21,10 @@
    - Use htmlspecialchars() to prevent XSS attacks when handling user inputs.
 
 ## Screenshots
-![App Screenshot]('screenshots/preview.jpg')
-
----
+![App Screenshot](screenshots/preview.png)  
 
 
 
 ## Notes
 - The current UI is basic but can be enhanced using CSS or Milligram.
 - All functionality is contained within your PHP script (index.php).
-```
