@@ -27,4 +27,4 @@
 
 ## Notes
 - The current UI is basic but can be enhanced using CSS or Milligram.
-- All functionality is contained within your PHP script (index.php).
+- All functionality is contained within PHP script (index.php).
