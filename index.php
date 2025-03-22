@@ -7,6 +7,17 @@ function saveTasks($tasks)
     file_put_contents(TASK_FILE, json_encode($tasks, JSON_PRETTY_PRINT));
 }
 
+function loadTasks()
+{
+    if (!file_exists(TASK_FILE)) {
+        return [];
+    }
+    $data = file_get_contents(TASK_FILE);
+    return $data ? json_decode($data, associative: true) : [];
+}
+
+$tasks = loadTasks();
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['task']) && !empty(trim($_POST['task']))) {
         $tasks[] = [
@@ -14,6 +25,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'done' => false
         ];
         saveTasks($tasks);
+        header('Location:' . $_SERVER['PHP_SELF']);
+        exit;
+    } else if (isset($_POST['delete'])) {
+        unset($tasks[$_POST['delete']]);
+        $tasks = array_values($tasks);
+        saveTasks($tasks);
+        header('Location:' . $_SERVER['PHP_SELF']);
+        exit;
+    } else if (isset($_POST['toggle'])) {
+        $tasks[$_POST['toggle']]['done'] = !$tasks[$_POST['toggle']]['done'];
+        saveTasks($tasks);
+        header('Location:' . $_SERVER['PHP_SELF']);
+        exit;
     }
 }
 
@@ -90,14 +114,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php foreach ($tasks as $index => $task): ?>
                             <li class="task-item">
                                 <form method="POST" style="flex-grow: 1;">
-                                    <input type="hidden" name="toggle" value="">
+                                    <input type="hidden" name="toggle" value="<?= $index ?>">
                                     <button type="submit"
                                             style="border: none; background: none; cursor: pointer; text-align: left; width: 100%;">
-                                        <span class="task"> <?php echo $task['task'] ?> </span>
+                                        <span class="<?= $task['done'] ? 'task-done' : 'task' ?>"> <?php echo $task['task'] ?> </span>
                                     </button>
                                 </form>
                                 <form method="POST">
-                                    <input type="hidden" name="delete" value="">
+                                    <input type="hidden" name="delete" value="<?= $index ?>">
                                     <button type="submit" class="button button-outline"
                                             style="margin-left: 10px;">Delete</button>
                                 </form>

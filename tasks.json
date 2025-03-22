@@ -1,0 +1,18 @@
+[
+    {
+        "task": "Research Topics",
+        "done": true
+    },
+    {
+        "task": "Planning",
+        "done": false
+    },
+    {
+        "task": "Review and Feedback",
+        "done": false
+    },
+    {
+        "task": "Finalization",
+        "done": false
+    }
+]
